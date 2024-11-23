@@ -1,10 +1,4 @@
-npm install bcrypt dotenv express express-handlebars jsonwebtoken pg nodemon
-https://www.toptal.com/developers/gitignore/
-"scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
-  },
-  // Importar la librería 'pg' y dotenv para manejar variables de entorno
+// Importar la librería 'pg' y dotenv para manejar variables de entorno
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -30,11 +24,3 @@ pool.connect((err, client, release) => {
 
 // Exportar el pool para que pueda ser reutilizado en otros módulos
 module.exports = pool;
-
-PORT=3000
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=123456789
-DB_NAME=techworld
-JWT_SECRET=clave_secreta_super_segura
