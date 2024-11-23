@@ -39,3 +39,127 @@ DB_PASSWORD=123456789
 DB_NAME=techworld
 JWT_SECRET=clave_secreta_super_segura
 
+// Importar dependencias
+const express = require("express");
+const dotenv = require("dotenv");
+
+// Cargar variables de entorno
+dotenv.config();
+
+// Importar el archivo de conexión a la base de datos
+const db = require("./models/db");
+
+// Inicializar la aplicación
+const app = express();
+
+// Middleware para parsear JSON y datos de formularios
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Ruta de ejemplo
+app.get("/", (req, res) => {
+  res.send("Bienvenido a TechWorld Learning Platform");
+});
+
+// Ruta de prueba para verificar conexión a la base de datos
+app.get("/db-test", async (req, res) => {
+  try {
+    const result = await db.query("SELECT NOW()");
+    res.status(200).send(`Conexión exitosa: ${result.rows[0].now}`);
+  } catch (error) {
+    console.error("Error al realizar consulta:", error.message);
+    res.status(500).send("Error al conectar con la base de datos.");
+  }
+});
+
+// Configuración del puerto
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
+});
+
+
+
+// Conexión a la base de datos
+const db = require("./db");
+
+// Crear tabla Usuario si no existe
+const createTableUsuario = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS Usuario (
+      id SERIAL PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      correo VARCHAR(100) UNIQUE NOT NULL,
+      contrasena VARCHAR(255) NOT NULL,
+      rol VARCHAR(50) NOT NULL,
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await db.query(query);
+    console.log("Tabla Usuario creada correctamente");
+  } catch (error) {
+    console.error("Error al crear la tabla Usuario:", error.message);
+  }
+};
+
+// Ejecutar la creación de la tabla
+createTableUsuario();
+
+// Conexión a la base de datos
+const db = require("./db");
+
+// Crear tabla Curso si no existe
+const createTableCurso = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS Curso (
+      id SERIAL PRIMARY KEY,
+      titulo VARCHAR(100) NOT NULL,
+      descripcion TEXT NOT NULL,
+      duracion INT NOT NULL,
+      instructor_id INT NOT NULL REFERENCES Usuario(id),
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await db.query(query);
+    console.log("Tabla Curso creada correctamente");
+  } catch (error) {
+    console.error("Error al crear la tabla Curso:", error.message);
+  }
+};
+
+// Ejecutar la creación de la tabla
+createTableCurso();
+// Conexión a la base de datos
+const db = require("./db");
+
+// Crear tabla Inscripcion si no existe
+const createTableInscripcion = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS Inscripcion (
+      id SERIAL PRIMARY KEY,
+      estudiante_id INT NOT NULL REFERENCES Usuario(id),
+      curso_id INT NOT NULL REFERENCES Curso(id),
+      progreso INT DEFAULT 0,
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await db.query(query);
+    console.log("Tabla Inscripcion creada correctamente");
+  } catch (error) {
+    console.error("Error al crear la tabla Inscripcion:", error.message);
+  }
+};
+
+// Ejecutar la creación de la tabla
+createTableInscripcion();
+// Importar modelos
+require("./models/usuario");
+require("./models/curso");
+require("./models/inscripcion");
+
