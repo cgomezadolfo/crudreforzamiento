@@ -7,8 +7,6 @@ require("./models/usuario");
 require("./models/curso");
 require("./models/inscripcion");
 
-
-
 // Cargar variables de entorno
 dotenv.config();
 
@@ -25,10 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 // Importar rutas
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
 // Registrar rutas
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(courseRoutes);
 
 
 // Ruta de ejemplo
