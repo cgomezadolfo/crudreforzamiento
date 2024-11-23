@@ -1,0 +1,2 @@
+npm install bcrypt dotenv express express-handlebars jsonwebtoken pg nodemon
+https://www.toptal.com/developers/gitignore/
