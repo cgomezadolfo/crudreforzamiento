@@ -7,6 +7,16 @@ if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET no está definido en el archivo .env");
 }
 
+// Renderizar la vista de inicio de sesión
+exports.renderLogin = (req, res) => {
+  res.render("login", { title: "Iniciar Sesión" });
+};
+
+// Renderizar la vista de registro
+exports.renderRegister = (req, res) => {
+  res.render("register", { title: "Registro de Usuario" });
+};
+
 // Controlador para registrar usuarios
 exports.registrarUsuario = async (req, res) => {
   const { nombre, correo, contrasena, rol } = req.body;

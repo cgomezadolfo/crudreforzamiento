@@ -1,6 +1,7 @@
 // Importar dependencias
 const express = require("express");
 const dotenv = require("dotenv");
+const { create } = require("express-handlebars");
 
 // Importar modelos
 require("./models/usuario");
@@ -15,6 +16,13 @@ const db = require("./models/db");
 
 // Inicializar la aplicación
 const app = express();
+
+
+// Configurar Handlebars como motor de vistas
+const hbs = create({ extname: ".handlebars" }); // Configuración de Handlebars
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+app.set("views", "./views");
 
 // Middleware para parsear JSON y datos de formularios
 app.use(express.json());
@@ -34,7 +42,8 @@ app.use(analyticsRoutes);
 
 // Ruta de ejemplo
 app.get("/", (req, res) => {
-    res.send("Bienvenido a TechWorld Learning Platform");
+    res.render("login", { title: "Iniciar Sesión" });
+    // res.send("Bienvenido a TechWorld Learning Platform");
 });
 
 // Ruta de prueba para verificar conexión a la base de datos

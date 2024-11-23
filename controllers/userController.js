@@ -1,6 +1,11 @@
 // Importar modelo de la base de datos
 const db = require("../models/db");
 
+// Renderizar el panel principal del usuario
+exports.renderDashboard = (req, res) => {
+    res.render("dashboard", { title: "Panel de Usuario", usuario: req.usuario });
+  };
+
 // Controlador para obtener el perfil del usuario autenticado
 exports.obtenerPerfil = async (req, res) => {
     try {
